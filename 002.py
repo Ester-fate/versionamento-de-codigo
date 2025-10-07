@@ -14,6 +14,6 @@ else:
         if 41 <= idade_atual <= 60:
           print("Você está na Meia Idade.")
         else:
-          if 60 >= idade_atual:
+          if 60 <= idade_atual:
             print("Você é Idoso.")
     
