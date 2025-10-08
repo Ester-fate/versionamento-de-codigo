@@ -1,0 +1,1 @@
+ano_nasc = int(input("digite o ano "))
