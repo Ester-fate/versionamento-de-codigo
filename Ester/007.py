@@ -1,0 +1,11 @@
+print("Lista com nomes das cidades!")
+lista_cidades = []
+cidade = input("Digite o nome de uma cidade:")
+lista_cidades.append(cidade)
+print(lista_cidades)
+cidade2 = input("Digite o nome da segunda cidade: ")
+lista_cidades.append(cidade2)
+print(lista_cidades)
+cidade3 = input("Digite o nome da terceira cidade: ")
+lista_cidades.append(cidade3)
+print(lista_cidades)
