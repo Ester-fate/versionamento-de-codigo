@@ -65,3 +65,30 @@ while True:
         break
     else:
         print("Opção inválida, tente novamente.")
+        import PySimpleGUI as sg
+
+
+layout = [
+    [sg.Text("Olá, PySimpleGUI!")],
+    [sg.Button("OK")]
+]
+
+
+window = sg.Window("Minha Tela Gráfica", layout)
+
+
+while True:
+    event, values = window.read()
+    if event == sg.WIN_CLOSED or event == "OK":
+        break
+
+window.close()
+from tkinter import PhotoImage
+from PIL import Image, ImageTk
+
+imagem_original = Image.open("caminho/para/sua/imagem.png")
+imagem_tk = ImageTk.PhotoImage(imagem_original)
+
+
+label_imagem = tk.Label(janela, image=imagem_tk)
+label_imagem.pack()
