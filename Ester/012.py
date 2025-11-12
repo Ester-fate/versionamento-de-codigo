@@ -1,9 +1,12 @@
+import tkinter as tk
+from tkinter import messagebox
+
 
 estoque = {
-    "arroz": 5000,    # 5 kg
-    "feijao": 3000,   # 3 kg
-    "carne": 2000,    # 2 kg
-    "salada": 1000    # 1 kg
+    "arroz": 5000,
+    "feijao": 3000,
+    "carne": 2000,
+    "salada": 1000
 }
 
 consumo = {
@@ -14,81 +17,70 @@ consumo = {
 }
 
 def mostrar_estoque():
-    print("\n=== ESTOQUE ATUAL ===")
+    texto = "=== ESTOQUE ATUAL ===\n"
     for item, qtd in estoque.items():
-        print(f"{item.capitalize()}: {qtd}g")
-    print("======================")
+        texto += f"{item.capitalize()}: {qtd}g\n"
+    return texto
 
 def marmitas_possiveis():
-    
     quantidades = {item: estoque[item] // consumo[item] for item in estoque}
-    
     total = min(quantidades.values())
-    print("\n=== MARMITAS POSSÍVEIS ===")
+    texto = "=== MARMITAS POSSÍVEIS ===\n"
     for item, qtd in quantidades.items():
-        print(f"Com {item}: {qtd} marmitas")
-    print(f"\n Total possível: {total} marmitas")
-    print("===========================")
+        texto += f"Com {item}: {qtd} marmitas\n"
+    texto += f"\nTotal possível: {total} marmitas"
+    return texto
 
 def vender_marmita(qtd):
     global estoque
-    
     possivel = min(estoque[item] // consumo[item] for item in estoque)
     if qtd > possivel:
-        print(f"\n Não há insumos suficientes para {qtd} marmitas!")
-        marmitas_possiveis()
+        messagebox.showwarning("Aviso", f"Não há insumos suficientes para {qtd} marmitas!")
         return
-    
+
     for item in estoque:
         estoque[item] -= consumo[item] * qtd
-    print(f"\n {qtd} marmita(s) feita(s) com sucesso!")
+    messagebox.showinfo("Sucesso", f"{qtd} marmita(s) vendida(s) com sucesso!")
 
-while True:
-    print("\n=== SISTEMA DE MARMITEX ===")
-    print("1 - Mostrar estoque")
-    print("2 - Ver marmitas possíveis")
-    print("3 - Registrar venda")
-    print("0 - Sair")
-    print("===========================")
 
-    opcao = input("Escolha uma opção: ")
+janela = tk.Tk()
+janela.title("Sistema de Marmitex")
+janela.geometry("400x400")
 
-    if opcao == "1":
-        mostrar_estoque()
-    elif opcao == "2":
-        marmitas_possiveis()
-    elif opcao == "3":
-        qtd = int(input("Quantas marmitas foram vendidas? "))
+
+texto_saida = tk.Text(janela, height=15, width=45)
+texto_saida.pack(pady=10)
+
+
+def mostrar_estoque_ui():
+    texto_saida.delete(1.0, tk.END)
+    texto_saida.insert(tk.END, mostrar_estoque())
+
+def marmitas_possiveis_ui():
+    texto_saida.delete(1.0, tk.END)
+    texto_saida.insert(tk.END, marmitas_possiveis())
+
+def vender_ui():
+    try:
+        qtd = int(entrada_qtd.get())
         vender_marmita(qtd)
-    elif opcao == "0":
-        print("Encerrando o sistema... ")
-        break
-    else:
-        print("Opção inválida, tente novamente.")
-        import PySimpleGUI as sg
+        mostrar_estoque_ui()
+    except ValueError:
+        messagebox.showerror("Erro", "Digite um número válido!")
 
 
-layout = [
-    [sg.Text("Olá, PySimpleGUI!")],
-    [sg.Button("OK")]
-]
+frame = tk.Frame(janela)
+frame.pack(pady=5)
+
+tk.Label(frame, text="Digite quantidade de marmitas vendidas:").grid(row=0, column=0, padx=5)
+entrada_qtd = tk.Entry(frame, width=10)
+entrada_qtd.grid(row=0, column=1, padx=5)
+
+tk.Button(janela, text="Mostrar estoque", width=20, command=mostrar_estoque_ui).pack(pady=3)
+tk.Button(janela, text="Ver marmitas possíveis", width=20, command=marmitas_possiveis_ui).pack(pady=3)
+tk.Button(janela, text="Registrar venda", width=20, command=vender_ui).pack(pady=3)
 
 
-window = sg.Window("Minha Tela Gráfica", layout)
+mostrar_estoque_ui()
 
-
-while True:
-    event, values = window.read()
-    if event == sg.WIN_CLOSED or event == "OK":
-        break
-
-window.close()
-from tkinter import PhotoImage
-from PIL import Image, ImageTk
-
-imagem_original = Image.open("caminho/para/sua/imagem.png")
-imagem_tk = ImageTk.PhotoImage(imagem_original)
-
-
-label_imagem = tk.Label(janela, image=imagem_tk)
-label_imagem.pack()
+janela.mainloop()
