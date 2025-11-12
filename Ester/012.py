@@ -49,7 +49,7 @@ while True:
     print("2 - Ver marmitas possíveis")
     print("3 - Registrar venda")
     print("0 - Sair")
-    print("================================")
+    print("===========================")
 
     opcao = input("Escolha uma opção: ")
 
