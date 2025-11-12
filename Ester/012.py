@@ -20,9 +20,9 @@ def mostrar_estoque():
     print("======================")
 
 def marmitas_possiveis():
-    # Calcula quantas marmitas dá pra fazer com cada item
+    
     quantidades = {item: estoque[item] // consumo[item] for item in estoque}
-    # O número total de marmitas possíveis é o mínimo entre todos
+    
     total = min(quantidades.values())
     print("\n=== MARMITAS POSSÍVEIS ===")
     for item, qtd in quantidades.items():
@@ -38,7 +38,7 @@ def vender_marmita(qtd):
         print(f"\n Não há insumos suficientes para {qtd} marmitas!")
         marmitas_possiveis()
         return
-    # Reduz o estoque
+    
     for item in estoque:
         estoque[item] -= consumo[item] * qtd
     print(f"\n {qtd} marmita(s) feita(s) com sucesso!")
